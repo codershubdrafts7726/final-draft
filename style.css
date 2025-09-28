@@ -1,0 +1,541 @@
+/* === GOOGLE FONTS & GLOBAL VARIABLES === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+:root {
+  --bg: #f8fafc;
+  --primary: #4f46e5;
+  --accent: #7c3aed;
+  --muted: #64748b;
+  --dark: #0b1220;
+}
+
+/* === BASE & RESET STYLES === */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: #0f172a;
+  line-height: 1.5; /* Increased for better readability */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Common container class for consistent centering and padding */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 16px; /* Mobile padding */
+}
+
+
+/* === HEADER / NAVBAR === */
+.navbar-wrap {
+  position: sticky;
+  top: 14px;
+  z-index: 60;
+  padding: 0 16px;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: auto; /* Pushes hamburger to the right */
+}
+
+.brand img {
+  height: 48px;
+  width: 48px;
+  border-radius: 8px;
+}
+
+.brand .title {
+  font-weight: 700;
+}
+
+/* Hide desktop nav and college title on mobile by default */
+.nav {
+  display: none;
+}
+
+.brand .title {
+  display: none;
+}
+
+/* Hamburger is visible on mobile by default */
+.hamburger {
+  display: inline-flex;
+  background: transparent;
+  border: 0;
+  font-size: 24px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav a {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.nav a.active {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  box-shadow: 0 10px 28px rgba(99, 102, 241, 0.14);
+}
+
+/* Spacer to prevent content from hiding behind sticky navbar */
+.header-spacer {
+  height: 82px;
+}
+
+
+/* === DRAWER (MOBILE MENU) === */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.45);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 300px;
+  background: white;
+  box-shadow: -20px 0 40px rgba(2, 6, 23, 0.2);
+  z-index: 110;
+  transform: translateX(100%);
+  transition: transform .28s;
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto; /* Allow interaction when visible */
+}
+
+.drawer .drawer-menu {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.drawer .drawer-menu a {
+  padding: 10px;
+  border-radius: 8px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+
+/* === HERO SECTION === */
+.hero {
+  padding: 24px 16px;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Mobile: stack vertically */
+  gap: 24px;
+  align-items: center;
+}
+
+.hero-card {
+  flex: 1;
+  width: 100%; /* Ensure it takes full width on mobile */
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  padding: 18px;
+}
+
+.hero-media {
+  flex: 1;
+  width: 100%; /* Ensure it takes full width on mobile */
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-cta {
+  padding: 8px 12px;
+}
+
+.hero-cta h1 {
+  font-size: 24px; /* Slightly larger base for mobile */
+  margin: 6px 0 6px;
+  font-weight: 800;
+}
+
+.hero-cta p {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.search-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid #eef2ff;
+}
+
+.search-box input {
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 10px 12px;
+  font-size: 15px;
+  min-width: 0; /* Fix for flex item overflow */
+}
+
+.search-box button {
+  background: var(--primary);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: 1 column */
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.stat {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.03);
+}
+
+.stat .num {
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.stat .label {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+
+/* === ABOUT SECTION === */
+.about {
+  max-width: 1200px;
+  margin: 36px auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column; /* Mobile: stack vertically */
+  gap: 20px;
+  align-items: center;
+}
+
+.about .info {
+  flex: 1;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.about .info h3 {
+  margin-top: 0;
+}
+
+.about .info dl {
+  display: grid;
+  /* Use 1 column on mobile for better readability */
+  grid-template-columns: 1fr; 
+  gap: 8px 12px;
+  color: var(--muted);
+}
+.about .info dl dt {
+  font-weight: 700;
+  color: var(--dark); /* Make term more prominent */
+}
+
+.about div[style*="flex"] {
+    flex: none; /* Reset inline style */
+    width: 100%;
+    max-width: 260px;
+    text-align: center;
+}
+
+
+/* === OTHER SECTIONS (CARDS, ACCORDION, STAFF, CONTACT) === */
+.section {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 18px;
+}
+
+.cards, .staff-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: 1 column */
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.card, .staff-card, .contact-card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+}
+
+.accordion {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 18px;
+}
+
+.acc-item {
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+}
+
+.acc-header {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.acc-body {
+  padding: 12px 16px;
+  border-top: 1px solid #f1f5f9;
+  display: none;
+  color: var(--muted);
+}
+
+.staff-card img {
+  height: 96px;
+  width: 96px;
+  border-radius: 999px;
+  object-fit: cover;
+  margin: 0 auto 12px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile: 1 column */
+  gap: 18px;
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 18px;
+}
+
+
+/* === FOOTER === */
+/* Footer is static on mobile, not fixed */
+.site-footer {
+  background: var(--dark);
+  color: white;
+  padding: 22px 16px;
+  border-top: 4px solid rgba(255, 255, 255, 0.02);
+}
+
+.site-footer .inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Mobile: stack vertically */
+  gap: 24px;
+  align-items: center; /* Center items on mobile */
+  text-align: center;
+}
+
+.social-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
+  transition: transform .18s;
+}
+.social-btn:hover {
+    transform: translateY(-2px);
+}
+
+.social-btn.fb { background: linear-gradient(135deg, #1877f2, #0a58ca); }
+.social-btn.ig { background: linear-gradient(135deg, #f58529, #dd2a7b); }
+.social-btn.tw { background: linear-gradient(135deg, #1DA1F2, #0d8bf2); }
+
+.email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+}
+
+/* No footer pad needed if footer is not fixed */
+.footer-pad {
+  display: none;
+}
+
+
+/* ======================================================= */
+/* =============== MEDIA QUERIES (TABLET+) =============== */
+/* ======================================================= */
+
+@media (min-width: 640px) {
+  /* At 640px, show 2 columns for some grids */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cards, .staff-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 24px; /* More padding for tablets */
+  }
+
+  /* Restore about section to a row */
+  .about {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .about .info dl {
+      /* Restore 2-column definition list */
+      grid-template-columns: 140px 1fr;
+  }
+
+  /* Restore full card grid */
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  /* Restore horizontal footer layout */
+  .site-footer .inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+
+/* ======================================================= */
+/* ============== MEDIA QUERIES (DESKTOP+) =============== */
+/* ======================================================= */
+
+@media (min-width: 1024px) {
+  /* Show desktop navigation and hide hamburger */
+  .nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+  }
+  .hamburger {
+    display: none;
+  }
+  .brand .title {
+    display: block; /* Show college title again */
+  }
+
+  /* Restore hero layout */
+  .hero-inner {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .hero-cta h1 {
+    font-size: 28px;
+  }
+  
+  /* Restore stats grid to full size */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Restore 3-column staff grid */
+  .staff-grid {
+      grid-template-columns: repeat(3, 1fr);
+  }
+  .contact-grid {
+      grid-template-columns: 1fr 1fr;
+  }
+
+  /* Make footer fixed on large screens ONLY */
+  .site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 80;
+  }
+  /* Show the footer padding again to prevent overlap */
+  .footer-pad {
+    display: block;
+    height: 110px;
+  }
+}

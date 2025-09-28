@@ -1,0 +1,59 @@
+{
+  "announcements": [
+    {
+      "title": "Library will remain closed on 2nd October for Gandhi Jayanti +",
+      "body": "The library will be closed for the national holiday. Normal operations resume the following day.",
+      "date": ""
+    },
+    {
+      "title": "New arrivals in Physics and Chemistry section +",
+      "body": "New textbooks and reference books available for issue.",
+      "date": ""
+    },
+    {
+      "title": "Workshop on Research Methodology next week +",
+      "body": "Register at the library counter or via email.",
+      "date": ""
+    }
+  ],
+  "staff": [
+    {
+      "name": "Dr. A. B. Librarian",
+      "role": "Librarian",
+      "email": "librarian@example.edu",
+      "phone": ""
+    },
+    {
+      "name": "Ms. C. D. Assistant",
+      "role": "Assistant Librarian",
+      "email": "assistant@example.edu",
+      "phone": ""
+    }
+  ],
+  "books": [
+    {
+      "title": "Introduction to Physics",
+      "author": "J. Doe",
+      "category": "Physics",
+      "year": "2019"
+    },
+    {
+      "title": "Organic Chemistry Basics",
+      "author": "R. Roe",
+      "category": "Chemistry",
+      "year": "2020"
+    }
+  ],
+  "eresources": [
+    {
+      "title": "JSTOR",
+      "link": "https://www.jstor.org/",
+      "description": "Academic journals and books."
+    },
+    {
+      "title": "Google Scholar",
+      "link": "https://scholar.google.com/",
+      "description": "Search scholarly literature."
+    }
+  ]
+}

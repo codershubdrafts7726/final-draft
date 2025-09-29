@@ -163,6 +163,12 @@ a {
   font-weight: 700;
 }
 
+/* === ADDED: MOBILE DRAWER ACTIVE STATE === */
+.drawer .drawer-menu a.active {
+    background: var(--primary); /* Highlight color */
+    color: white;
+}
+
 
 /* === HERO SECTION === */
 .hero {

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     // ===================================================
-    // 2. Existing Scripts (Unchanged)
+    // 2. Existing Scripts (Fixed Drawer Link Logic)
     // ===================================================
 
     // Accordion for announcements
@@ -80,9 +80,23 @@ document.addEventListener('DOMContentLoaded', function(){
 
         hamburger.addEventListener('click', ()=>{ toggleDrawer(true); });
         backdrop.addEventListener('click', ()=>{ toggleDrawer(false); });
+        
+        // FIX: Override the default link action to ensure the drawer closes smoothly.
         document.querySelectorAll('.drawer-menu a').forEach(a => {
-            a.addEventListener('click', () => { toggleDrawer(false); });
+            a.addEventListener('click', (e) => { 
+                e.preventDefault(); // Stop the default navigation/reload immediately
+                
+                // 1. Start the closing animation
+                toggleDrawer(false); 
+
+                // 2. Wait for the animation (which is 0.28s in your CSS) and then navigate/reload
+                // Using 300ms for a smooth transition wait time.
+                setTimeout(() => {
+                    window.location.href = a.href;
+                }, 300); 
+            });
         });
+
         document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ toggleDrawer(false); }});
     }
 

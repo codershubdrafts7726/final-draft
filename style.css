@@ -37,12 +37,17 @@ a {
 }
 
 
-/* === HEADER / NAVBAR === */
+/* === HEADER / NAVBAR FIXES === */
 .navbar-wrap {
-  position: sticky;
-  top: 14px;
-  z-index: 60;
-  padding: 0 16px;
+  /* FIX: Changed from sticky to fixed for reliable z-index on mobile */
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* CRITICAL: Set high z-index, higher than drawer (110) */
+  z-index: 120; 
+  padding: 0; /* Full-width fixed container */
+  background: var(--bg); /* Ensure no content shows through */
 }
 
 .navbar {
@@ -51,20 +56,21 @@ a {
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(6px);
-  border-radius: 14px;
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+  /* Removed border-radius and border/shadow for fixed header on mobile */
+  border-radius: 0; 
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
   display: flex;
   align-items: center;
   gap: 18px;
   padding: 12px 20px;
-  border: 1px solid rgba(15, 23, 42, 0.04);
+  border: 0;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-right: auto; /* Pushes hamburger to the right */
+  margin-right: auto;
 }
 
 .brand img {
@@ -95,6 +101,7 @@ a {
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
+  z-index: 121; /* Safest z-index */
 }
 
 .nav a {
@@ -110,9 +117,9 @@ a {
   box-shadow: 0 10px 28px rgba(99, 102, 241, 0.14);
 }
 
-/* Spacer to prevent content from hiding behind sticky navbar */
+/* Spacer to prevent content from hiding behind fixed navbar */
 .header-spacer {
-  height: 82px;
+  height: 82px; /* Keep height same as before */
 }
 
 
@@ -124,7 +131,7 @@ a {
   z-index: 100;
   opacity: 0;
   transition: opacity .25s;
-  pointer-events: none; /* Prevent interaction when hidden */
+  pointer-events: none;
 }
 
 .drawer {
@@ -146,7 +153,7 @@ a {
 
 .drawer-backdrop.open {
   opacity: 1;
-  pointer-events: auto; /* Allow interaction when visible */
+  pointer-events: auto;
 }
 
 .drawer .drawer-menu {
@@ -163,9 +170,9 @@ a {
   font-weight: 700;
 }
 
-/* === ADDED: MOBILE DRAWER ACTIVE STATE === */
+/* === MOBILE DRAWER ACTIVE STATE === */
 .drawer .drawer-menu a.active {
-    background: var(--primary); /* Highlight color */
+    background: var(--primary); 
     color: white;
 }
 
@@ -180,14 +187,14 @@ a {
   margin: 0 auto;
   width: 100%;
   display: flex;
-  flex-direction: column; /* Mobile: stack vertically */
+  flex-direction: column;
   gap: 24px;
   align-items: center;
 }
 
 .hero-card {
   flex: 1;
-  width: 100%; /* Ensure it takes full width on mobile */
+  width: 100%;
   background: white;
   border-radius: 16px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
@@ -196,7 +203,7 @@ a {
 
 .hero-media {
   flex: 1;
-  width: 100%; /* Ensure it takes full width on mobile */
+  width: 100%;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
@@ -214,7 +221,7 @@ a {
 }
 
 .hero-cta h1 {
-  font-size: 24px; /* Slightly larger base for mobile */
+  font-size: 24px;
   margin: 6px 0 6px;
   font-weight: 800;
 }
@@ -240,7 +247,7 @@ a {
   outline: none;
   padding: 10px 12px;
   font-size: 15px;
-  min-width: 0; /* Fix for flex item overflow */
+  min-width: 0;
 }
 
 .search-box button {
@@ -255,7 +262,7 @@ a {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile: 1 column */
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 12px;
 }
@@ -286,7 +293,7 @@ a {
   margin: 36px auto;
   padding: 18px;
   display: flex;
-  flex-direction: column; /* Mobile: stack vertically */
+  flex-direction: column;
   gap: 20px;
   align-items: center;
 }
@@ -306,18 +313,17 @@ a {
 
 .about .info dl {
   display: grid;
-  /* Use 1 column on mobile for better readability */
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   gap: 8px 12px;
   color: var(--muted);
 }
 .about .info dl dt {
   font-weight: 700;
-  color: var(--dark); /* Make term more prominent */
+  color: var(--dark);
 }
 
 .about div[style*="flex"] {
-    flex: none; /* Reset inline style */
+    flex: none;
     width: 100%;
     max-width: 260px;
     text-align: center;
@@ -329,11 +335,12 @@ a {
   max-width: 1200px;
   margin: 24px auto;
   padding: 18px;
+  /* z-index is deliberately low (default 1) to stay behind fixed header */
 }
 
 .cards, .staff-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile: 1 column */
+  grid-template-columns: 1fr;
   gap: 16px;
   margin-top: 12px;
 }
@@ -384,7 +391,7 @@ a {
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile: 1 column */
+  grid-template-columns: 1fr;
   gap: 18px;
   max-width: 1200px;
   margin: 24px auto;
@@ -406,9 +413,9 @@ a {
   width: 100%;
   margin: 0 auto;
   display: flex;
-  flex-direction: column; /* Mobile: stack vertically */
+  flex-direction: column;
   gap: 24px;
-  align-items: center; /* Center items on mobile */
+  align-items: center;
   text-align: center;
 }
 
@@ -453,7 +460,6 @@ a {
 /* ======================================================= */
 
 @media (min-width: 640px) {
-  /* At 640px, show 2 columns for some grids */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -464,25 +470,21 @@ a {
 
 @media (min-width: 768px) {
   .container {
-    padding: 0 24px; /* More padding for tablets */
+    padding: 0 24px;
   }
 
-  /* Restore about section to a row */
   .about {
     flex-direction: row;
     align-items: flex-start;
   }
   .about .info dl {
-      /* Restore 2-column definition list */
       grid-template-columns: 140px 1fr;
   }
 
-  /* Restore full card grid */
   .cards {
     grid-template-columns: repeat(3, 1fr);
   }
   
-  /* Restore horizontal footer layout */
   .site-footer .inner {
     flex-direction: row;
     justify-content: space-between;
@@ -506,7 +508,23 @@ a {
     display: none;
   }
   .brand .title {
-    display: block; /* Show college title again */
+    display: block;
+  }
+
+  /* REINTRODUCE STICKY/FLOATING EFFECT FOR DESKTOP */
+  .navbar-wrap {
+    position: sticky; /* Back to sticky for the nice floating effect */
+    top: 14px;
+    z-index: 120;
+    padding: 0 16px; /* Restore padding to create the floating effect */
+    background: transparent; /* Remove background so the content below shows */
+  }
+
+  .navbar {
+    border-radius: 14px; /* Restore rounded corners */
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); /* Restore larger shadow */
+    border: 1px solid rgba(15, 23, 42, 0.04); /* Restore border */
+    padding: 12px 20px; /* Restore padding */
   }
 
   /* Restore hero layout */

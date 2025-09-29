@@ -1,35 +1,50 @@
 document.addEventListener('DOMContentLoaded', function(){
     // ===================================================
-    // 1. FIXED: Active nav highlight (Robust URL Check)
+    // 1. FIXED: Active nav highlight (Ensures only one link is active)
     // ===================================================
 
-    // Get the current path (e.g., /, /about.html, /contact/)
+    // Get the current path and normalize it for comparison
     const currentPath = location.pathname.toLowerCase(); 
 
     // Find all navigation links in both navbar and drawer
     document.querySelectorAll('.nav a, .drawer-menu a').forEach(a => {
         const linkHref = a.getAttribute('href').toLowerCase();
-
-        // 1. Check for the homepage
-        // If the link is "index.html" and the current path is the root "/", activate it.
-        const isHome = linkHref === 'index.html' && (currentPath === '/' || currentPath === '/index.html');
         
-        // 2. Check for all other pages
-        // Robust check: normalize the link (remove .html and leading ./) and see if the current path includes it.
-        const normalizedHref = linkHref.replace('.html', '').replace('./', '');
-        const isMatch = currentPath.includes(normalizedHref) && normalizedHref !== '';
+        // 1. Always remove 'active' class first to prevent multiple highlights
+        a.classList.remove('active');
 
-        // Add 'active' class if it's a match
-        if (isHome || isMatch) {
+        // 2. Define the criteria for the current link to be active
+        let shouldBeActive = false;
+
+        // A. Home Page Check (Must be exact match for root URL)
+        // Checks for '/' or '/index.html'
+        const isRoot = currentPath === '/' || currentPath === '/index.html';
+        if (linkHref === 'index.html' && isRoot) {
+            shouldBeActive = true;
+        }
+
+        // B. Non-Home Page Check (Requires a specific match)
+        // Normalize the current path to handle both /about/ and /about.html
+        const normalizedPath = isRoot ? '' : currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
+
+        // Extract the filename from the link href (e.g., 'about.html' -> '/about')
+        const linkFileName = '/' + linkHref.replace('.html', '').replace('./', '');
+
+        // Check if the current path ends with the link's filename (e.g., '/about' ends with '/about')
+        if (linkHref !== 'index.html' && normalizedPath.endsWith(linkFileName)) {
+            shouldBeActive = true;
+        }
+
+
+        // 3. Apply the class
+        if (shouldBeActive) {
             a.classList.add('active');
-        } else {
-            a.classList.remove('active');
         }
     });
 
 
     // ===================================================
-    // 2. Existing Scripts (Fixed Drawer Link Logic)
+    // 2. Existing Scripts (Drawer, Accordion, etc.)
     // ===================================================
 
     // Accordion for announcements
@@ -78,10 +93,13 @@ document.addEventListener('DOMContentLoaded', function(){
             }
         };
 
+        // This listener is for the hamburger button
         hamburger.addEventListener('click', ()=>{ toggleDrawer(true); });
+        
+        // This listener is for the backdrop click
         backdrop.addEventListener('click', ()=>{ toggleDrawer(false); });
         
-        // FIX: Override the default link action to ensure the drawer closes smoothly.
+        // Override the default link action to ensure the drawer closes smoothly.
         document.querySelectorAll('.drawer-menu a').forEach(a => {
             a.addEventListener('click', (e) => { 
                 e.preventDefault(); // Stop the default navigation/reload immediately
@@ -89,8 +107,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 // 1. Start the closing animation
                 toggleDrawer(false); 
 
-                // 2. Wait for the animation (which is 0.28s in your CSS) and then navigate/reload
-                // Using 300ms for a smooth transition wait time.
+                // 2. Wait for the animation (0.28s) and then navigate/reload
                 setTimeout(() => {
                     window.location.href = a.href;
                 }, 300); 
@@ -139,6 +156,11 @@ async function loadSiteData(){
         const res = await fetch('/content/data.json');
         if(!res.ok) return;
         const data = await res.json();
+        
+        // Helper function for XSS protection
+        function escapeHtml(str){ if(!str) return ''; return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function escapeAttr(str){ if(!str) return ''; return str.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
         // Announcements page
         const annContainer = document.getElementById('announcements-container');
         if(annContainer && data.announcements){
@@ -149,7 +171,7 @@ async function loadSiteData(){
                 item.innerHTML = `<div class="acc-header">${escapeHtml(a.title)} <span style="color:var(--muted)">+</span></div><div class="acc-body">${escapeHtml(a.body)}</div>`;
                 annContainer.appendChild(item);
             });
-            // reattach accordion toggles
+            // reattach accordion toggles (re-attaching this logic is important!)
             document.querySelectorAll('#announcements-container .acc-header').forEach(h=>{
                 h.addEventListener('click', ()=>{
                     const body = h.parentElement.querySelector('.acc-body');
@@ -213,10 +235,6 @@ async function loadSiteData(){
         console.error('Failed to load site data', err);
     }
 }
-
-// small helpers
-function escapeHtml(str){ if(!str) return ''; return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function escapeAttr(str){ if(!str) return ''; return str.replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 document.addEventListener('DOMContentLoaded', function(){
     // call loader after initial scripts

@@ -1,29 +1,29 @@
 document.addEventListener('DOMContentLoaded', function(){
     // ===================================================
-    // 1. UPDATED: Active nav highlight (FIXED)
+    // 1. FIXED: Active nav highlight (Robust URL Check)
     // ===================================================
 
-    // Get the current path, ensuring we treat the root URL as 'index.html'
-    let currentPath = location.pathname.split('/').pop().toLowerCase();
-    
-    if (currentPath === '') {
-        currentPath = 'index.html';
-    }
+    // Get the current path (e.g., /, /about.html, /contact/)
+    const currentPath = location.pathname.toLowerCase(); 
 
-    // Highlight links in the main desktop navbar (.nav)
-    document.querySelectorAll('.nav a').forEach(a => {
+    // Find all navigation links in both navbar and drawer
+    document.querySelectorAll('.nav a, .drawer-menu a').forEach(a => {
         const linkHref = a.getAttribute('href').toLowerCase();
 
-        if (linkHref === currentPath) {
-            a.classList.add('active');
-        }
-    });
+        // 1. Check for the homepage
+        // If the link is "index.html" and the current path is the root "/", activate it.
+        const isHome = linkHref === 'index.html' && (currentPath === '/' || currentPath === '/index.html');
+        
+        // 2. Check for all other pages
+        // Robust check: normalize the link (remove .html and leading ./) and see if the current path includes it.
+        const normalizedHref = linkHref.replace('.html', '').replace('./', '');
+        const isMatch = currentPath.includes(normalizedHref) && normalizedHref !== '';
 
-    // Highlight links in the mobile drawer menu (.drawer-menu)
-    document.querySelectorAll('.drawer-menu a').forEach(a => {
-        const linkHref = a.getAttribute('href').toLowerCase();
-        if (linkHref === currentPath) {
+        // Add 'active' class if it's a match
+        if (isHome || isMatch) {
             a.classList.add('active');
+        } else {
+            a.classList.remove('active');
         }
     });
 
